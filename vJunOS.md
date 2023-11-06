@@ -64,7 +64,7 @@ When you run `virsh` without any options, it tries to connect to a local hypervi
 
 ```sh
 sudo apt update
-sudo apt install libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager
+sudo apt install libvirt-daemon-system libvirt-clients bridge-utils virtinst
 ```
 Test it:
 ```sh
@@ -90,9 +90,9 @@ Make a distinct copy for each vJunos disk images that you plan to deploy. This e
 Create disk image(s) and configuration file(s):
 ```sh
 # Number of VMs
-VMS=4
+VMS=2
 # Original disk for the VM
-QCOW2=vJunos-switch-23.2R1.14.qcow2
+QCOW2=vjunos-switch-23.2R1.14.qcow2
 # Original configuration file
 XML=vjunos-23.2R1.14.xml
 # External interface on host
@@ -213,9 +213,21 @@ Edit the file `/etc/libvirt/qemu.conf` and add the last two (2) lines:
 #       user = "+0"     # Super user (uid=0)
 #       user = "100"    # A user named "100" or a user with uid=100
 #
-#user = "libvirt-qemu"
-user = "+0"
-group = "root"
+#user = "root"
+user = "libvirt-qemu"
+group = "libvirt"
+```
+
+Set the user and group on the directory `/var/lib/libvirt/images/` and check the access:
+```sh
+sudo chown libvirt-qemu:libvirt /var/lib/libvirt/images/
+sudo -u libvirt-qemu dir /var/lib/libvirt/images/
+```
+
+Copy your `qcow2` file in `/var/lib/libvirt/images/`
+```sh
+sudo mv vjunos.qcow2 /var/lib/libvirt/images/.
+sudo chown -R libvirt-qemu:libvirt /var/lib/libvirt/images/
 ```
 
 Restart `libvirtd` and check it's status:
@@ -227,8 +239,10 @@ sudo systemctl status libvirtd
 ## Create interfaces
 Create a Linux bridge for each Gigabit Ethernet interface of the vJunos-switch that you plan to use.
 ```sh
-ip link add ge-000 type bridge
-ip link add ge-001 type bridge
+sudo ip link add ge-000 type bridge
+sudo ip link add ge-001 type bridge
+sudo ip link add ge-002 type bridge
+sudo ip link add ge-003 type bridge
 ```
 
 > [!NOTE]  
@@ -236,8 +250,10 @@ ip link add ge-001 type bridge
 
 In this case, the instance will have ge-0/0/0 and ge-0/0/1 configured. Bring up each Linux Bridge.
 ```sh
-ip link set ge-000 up
-ip link set ge-001 up
+sudo ip link set ge-000 up
+sudo ip link set ge-001 up
+sudo ip link set ge-002 up
+sudo ip link set ge-003 up
 ```
 
 > [!NOTE]  
@@ -250,7 +266,7 @@ error: Cannot get interface MTU on 'ge-000': No such device
 ## Start the VM
 Start one vSwitch with the command:
 ```sh
-virsh create vjunos-sw1-live.xml
+virsh create vjunos-sw1.xml
 ```
 
 The output should be:
@@ -321,7 +337,7 @@ configure
 set system root-authentication plain-text-password
 delete chassis auto-image-upgrade
 commit
-show interfaces terse
+run show interfaces terse
 ```
 
 # Set management interface (Optional)

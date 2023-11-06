@@ -36,7 +36,7 @@
     <disk device="disk" type="file">
       <driver cache="writeback" name="qemu" type="qcow2"/>
       <!-- Update the path to the location of your guest kernel file on the host -->
-      <source file="QCOW2"/>
+      <source file="/var/lib/libvirt/images/QCOW2"/>
       <target dev="vda" bus="virtio"/>
     </disk>
     <!-- <disk device="disk" type="file">
@@ -52,35 +52,30 @@
       <source dev="ETH0" mode="bridge"/>
       <model type="virtio"/>
       <alias name="net0"/>
-      <address type="pci" domain="0x0000" bus="0x00" slot="0x00" function="0x0"/>
     </interface>
     <interface type="bridge">
       <source bridge="ge-000"/>
       <model type="virtio"/>
       <mtu size="9600"/>
       <alias name="net0"/>
-      <address bus="0x00" domain="0x0000" function="0x0" slot="0x30" type="pci"/>
     </interface>
     <interface type="bridge">
       <source bridge="ge-001"/>
       <model type="virtio"/>
       <mtu size="9600"/>
       <alias name="net1"/>
-      <address bus="0x00" domain="0x0000" function="0x0" slot="0x01" type="pci"/>
     </interface>
     <interface type="bridge">
       <source bridge="ge-002"/>
       <model type="virtio"/>
       <mtu size="9600"/>
       <alias name="net2"/>
-      <address bus="0x00" domain="0x0000" function="0x0" slot="0x02" type="pci"/>
     </interface>
     <interface type="bridge">
       <source bridge="ge-003"/>
       <model type="virtio"/>
       <mtu size="9600"/>
       <alias name="net3"/>
-      <address bus="0x00" domain="0x0000" function="0x0" slot="0x03" type="pci"/>
     </interface>
     <serial type="tcp">
     <!-- Update the TCP port number for each VM -->
