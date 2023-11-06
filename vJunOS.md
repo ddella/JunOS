@@ -224,10 +224,9 @@ sudo chown libvirt-qemu:libvirt /var/lib/libvirt/images/
 sudo -u libvirt-qemu dir /var/lib/libvirt/images/
 ```
 
-Copy your `qcow2` file in `/var/lib/libvirt/images/`
+Copy your original `qcow2` file to `/var/lib/libvirt/images/`. The command will copy the file `vjunos-switch-23.2R1.14.qcow2` to `/var/lib/libvirt/images/vjunos-sw1.qcow2`, change the permissions of the file to **644**, the owner to **libvirt-qemu**, and the group to **libvirt**.
 ```sh
-sudo mv vjunos.qcow2 /var/lib/libvirt/images/.
-sudo chown -R libvirt-qemu:libvirt /var/lib/libvirt/images/
+sudo install -C -m 644 -o libvirt-qemu -g libvirt vjunos-switch-23.2R1.14.qcow2 /var/lib/libvirt/images/vjunos-sw1.qcow2
 ```
 
 Restart `libvirtd` and check it's status:
