@@ -256,7 +256,7 @@ sudo ip link set ge-003 up
 ```
 
 > [!NOTE]  
-> If you don't configure the interfaces, you will get the following error message:
+> If you don't configure the Linux **bridges**, you will get the following error message:
 ```
 error: Failed to create domain from vjunos-sw1-live.xml
 error: Cannot get interface MTU on 'ge-000': No such device
@@ -268,7 +268,7 @@ Start one vSwitch with the command:
 virsh create vjunos-sw1.xml
 ```
 
-The output should be:
+The expected output should be:
 ```
 Domain 'vjunos-sw1' created from vjunos-sw1-live.xml
 ```
