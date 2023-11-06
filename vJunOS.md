@@ -177,6 +177,9 @@ This example allows you to connect to the VCP `fxp0` that is the management port
 </interface>
 ```
 
+> [!NOTE]  
+> I removed the lines `<address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>` everywhere.
+
 ## Serial console port number
 Provide a unique serial console port number for each vJunos-switch on your host server. In the following example, the unique serial console port number is `8611`.
 ```xml
